@@ -27,7 +27,7 @@ onChangeText={setTaskText}
 
 />
 
-<Button title="Add Task" onPress={handleAddTask} />
+<Button title="Press me :3" onPress={handleAddTask} />
 <Text>You have {tasks.length} task(s)</Text>
 <FlatList
 data={tasks}
