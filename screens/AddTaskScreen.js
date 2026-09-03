@@ -9,6 +9,7 @@ export default function AddTaskScreen() {
   const [tasks, setTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [quote, setQuote] = useState("Loading today's motivation...");
 
 useEffect(() => {
 const loadTasks = async () => {
@@ -52,21 +53,14 @@ console.error('Failed to save tasks:', error);
 saveTasks();
 }, [tasks, isLoaded]);
   
-  useEffect(() => {
-
-AsyncStorage.setItem('tasks', JSON.stringify(tasks));
-
-}, [tasks]);
-
 useEffect(() => {
 
-AsyncStorage.getItem('tasks').then((savedData) => {
+fetch('https://api.quotable.io/random')
+.then((response) => response.json())
+.then((data) => setQuote(data.content))
 
-if (savedData !== null) {
-setTasks(JSON.parse(savedData));
+.catch(() => setQuote('Believe in yourself and get it done!'));
 
-}
-});
 }, []);
 
   function handleAddTask() {
@@ -94,8 +88,21 @@ setTasks(JSON.parse(savedData));
     );
   }
 
+  
+
   return (
     <View style={styles.container}>
+          <Text style={styles.quote}>💬 {quote}</Text>
+          <Button
+title="New Quote"
+onPress={() => {
+
+fetch('https://api.quotable.io/random')
+.then((response) => response.json())
+.then((data) => setQuote(data.content));
+
+}}
+/>
       <Text style={styles.heading}>Add a Task</Text>
 
       <TextInput
@@ -179,4 +186,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 12,
   },
+  quote: { fontStyle: 'italic', color: '#6B7280', marginBottom: 16, textAlign: 'center'
+
+},
 });
