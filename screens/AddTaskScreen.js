@@ -87,6 +87,10 @@ fetch('https://api.quotable.io/random')
       )
     );
   }
+  function handleDeleteTask(id) {
+setTasks(tasks.filter((t) => t.id !== id));
+
+}
 
   
 
@@ -127,13 +131,16 @@ fetch('https://api.quotable.io/random')
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TaskCard
-            title={item.title}
-            done={item.done}
-            onToggle={() => handleToggleTask(item.id)}
-          />
-        )}
+      renderItem={({ item }) => (
+<TaskCard
+title={item.title}
+done={item.done}
+
+onToggle={() => handleToggleTask(item.id)}
+onDelete={() => handleDeleteTask(item.id)}
+
+/>
+)}
         ListEmptyComponent={
           <Text style={styles.empty}>No tasks yet — add one above! 👆</Text>
         }
